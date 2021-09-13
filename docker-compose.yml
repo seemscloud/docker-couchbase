@@ -1,0 +1,12 @@
+version: '3.9'
+
+services:
+  couchbase:
+    container_name: couchbase
+    hostname: couchbase
+    build:
+      context: ./couchbase
+      args:
+        VERSION: "6.6.0"
+
+
