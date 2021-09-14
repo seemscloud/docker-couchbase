@@ -16,7 +16,7 @@ elif [[ ${NODE_TYPE} == "join" ]]; then
   ${APPDIR}/${VERSION}/bin/couchbase-server --start
   sleep 5
 
-  curl http://couchbase-init:8091/controller/addNode \
+  curl http://${NODE_JOIN}:8091/controller/addNode \
     -v -X POST \
     -u "${USERNAME}:${PASSWORD}" \
     -d "hostname=http://$(hostname -i)" \
