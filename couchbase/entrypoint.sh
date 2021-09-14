@@ -1,3 +1,7 @@
 #!/bin/bash
 
-./bin/couchbase-server
+/bin/bash ./bin/install/reloc.sh `pwd`
+
+pwd
+
+couchbase-server

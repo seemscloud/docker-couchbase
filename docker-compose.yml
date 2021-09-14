@@ -8,5 +8,3 @@ services:
       context: ./couchbase
       args:
         VERSION: "6.6.0"
-
-
