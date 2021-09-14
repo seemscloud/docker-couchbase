@@ -16,7 +16,7 @@ services:
       - "8091:8091"
   couchbase:
     deploy:
-      replicas: 2
+      replicas: 0
     build:
       context: ./couchbase
       args:
