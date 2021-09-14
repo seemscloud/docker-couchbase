@@ -1,17 +1,19 @@
 FROM ubuntu:bionic
 
 ARG VERSION
-ARG APPDIR="/opt/app"
+ENV VERSION="${VERSION}"
 
+ARG APPDIR="/opt/couchbase"
 ENV APPDIR="${APPDIR}"
-ENV DEBIAN_FRONTEND=noninteractive
 
-ENV PATH="/opt/couchbase/${VERSION}/bin:${PATH}"
+ENV PATH="${APPDIR}/${VERSION}/bin:${PATH}"
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && \
-    apt-get install wget file -y
+    apt-get install wget file xz-utils -y
 
 RUN useradd -s /bin/bash -m -d ${APPDIR} couchbase && \
     chmod 700 ${APPDIR}
@@ -20,18 +22,18 @@ WORKDIR /tmp
 
 RUN mkdir -p /opt/couchbase/${VERSION} && \
     wget https://packages.couchbase.com/releases/${VERSION}/couchbase-server-community_${VERSION}-ubuntu18.04_amd64.deb -O couchbase.deb && \
-    dpkg-deb -x couchbase.deb /opt/couchbase/${VERSION} && \
+    dpkg-deb -x couchbase.deb ${APPDIR}/${VERSION} && \
     rm -f couchbase.deb
 
-RUN cd /opt/couchbase/${VERSION} && \
-    rm -rf etc usr lib && \
-    mv ./opt/couchbase/* . && \
-    rmdir ./opt/couchbase && \
-    rmdir ./opt
-
-USER couchbase
-
 WORKDIR ${APPDIR}
+
+RUN cd ${VERSION} && \
+    rm -rf etc usr lib && \
+    mv opt/couchbase/* . && \
+    rm -rf opt && \
+    chown -R couchbase:couchbase * && \
+    ./bin/install/reloc.sh `pwd`
+
 COPY --chown=couchbase ./entrypoint.sh .
 
 CMD ["/bin/bash", "./entrypoint.sh"]
