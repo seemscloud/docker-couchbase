@@ -1,0 +1,48 @@
+dn: ou=users,dc=seems,dc=cloud
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=seems,dc=cloud
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=couchbase_unix,ou=groups,dc=seems,dc=cloud
+objectClass: posixGroup
+cn: couchbase
+gidNumber: 5000
+
+dn: cn=couchbase_ui,ou=groups,dc=seems,dc=cloud
+objectClass: groupOfUniqueNames
+cn: group2
+uniquemember: uid=auth,ou=users,dc=seems,dc=cloud
+uniquemember: uid=jsmith,ou=users,dc=seems,dc=cloud
+
+dn: uid=auth,ou=users,dc=seems,dc=cloud
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: Auth
+sn: auth
+cn: Auth
+givenName: Auth
+displayName: Auth
+uidNumber: 10000
+userPassword: auth
+gidNumber: 5000
+loginShell: /bin/bash
+homeDirectory: /home/auth/
+
+dn: uid=jsmith,ou=users,dc=seems,dc=cloud
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: John
+sn: jsmith
+cn: John Smith
+givenName: John
+displayName: John Smith
+uidNumber: 10001
+userPassword: jsmith
+gidNumber: 5000
+loginShell: /bin/bash
+homeDirectory: /home/jsmith/

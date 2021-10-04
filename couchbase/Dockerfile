@@ -21,7 +21,7 @@ RUN useradd -s /bin/bash -m -d ${APPDIR} couchbase && \
 WORKDIR /tmp
 
 RUN mkdir -p /opt/couchbase/${VERSION} && \
-    wget https://packages.couchbase.com/releases/${VERSION}/couchbase-server-community_${VERSION}-ubuntu18.04_amd64.deb -O couchbase.deb && \
+    wget https://packages.couchbase.com/releases/${VERSION}/couchbase-server-enterprise_${VERSION}-ubuntu18.04_amd64.deb -O couchbase.deb && \
     dpkg-deb -x couchbase.deb ${APPDIR}/${VERSION} && \
     rm -f couchbase.deb
 
@@ -33,6 +33,8 @@ RUN cd ${VERSION} && \
     rm -rf opt && \
     chown -R couchbase:couchbase * && \
     ./bin/install/reloc.sh `pwd`
+
+USER couchbase
 
 COPY --chown=couchbase ./entrypoint.sh .
 

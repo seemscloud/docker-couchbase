@@ -7,10 +7,10 @@ services:
     build:
       context: ./couchbase
       args:
-        VERSION: "6.6.0"
+        VERSION: "6.6.3"
     environment:
       USERNAME: "admin"
-      PASSWORD: "admin123"
+      PASSWORD: "admin1"
       NODE_TYPE: "init"
     ports:
       - "8091:8091"
@@ -20,9 +20,17 @@ services:
     build:
       context: ./couchbase
       args:
-        VERSION: "6.6.0"
+        VERSION: "6.6.3"
     environment:
       USERNAME: "admin"
-      PASSWORD: "admin123"
+      PASSWORD: "admin1"
       NODE_TYPE: "join"
       NODE_JOIN: "couchbase-init"
+  ldap:
+    container_name: ldap
+    hostname: ldap
+    build:
+      context: ./ldap
+      args:
+        DOMAIN: "seems.cloud"
+        PASSWORD: "admin123"
